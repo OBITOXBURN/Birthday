@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday! 💖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root { --primary: #ff4d6d; --glass: rgba(255, 255, 255, 0.3); }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        body { 
+            overflow: hidden; background: linear-gradient(45deg, #ff9a9e, #fecfef); 
+            height: 100vh; width: 100vw; display: flex; justify-content: center; align-items: center;
+        }
+
+        /* Floating Hearts */
+        .bg-heart { position: fixed; top: -10%; font-size: 20px; z-index: 0; animation: fall linear infinite; pointer-events: none; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+
+        .page {
+            width: 100%; height: 100%; position: absolute; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; transition: all 0.8s ease-in-out;
+            transform: scale(0.8); opacity: 0; z-index: 1; text-align: center;
+        }
+        .page.active { transform: scale(1); opacity: 1; z-index: 10; }
+        .page.prev { transform: translateY(-100%) scale(1.1); opacity: 0; }
+
+        .glass-card {
+            background: var(--glass); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 25px;
+            padding: 30px; width: 90%; max-width: 360px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        h1 { font-family: 'Dancing Script', cursive; color: white; font-size: 2.8rem; text-shadow: 2px 2px 8px rgba(0,0,0,0.1); }
+
+        /* Real Typewriter Effect */
+        .typewriter {
+            color: #d63384; background: white; padding: 5px 15px; border-radius: 50px;
+            font-weight: 600; margin: 15px 0; display: inline-block;
+            overflow: hidden; white-space: nowrap; border-right: 3px solid #d63384;
+            animation: typing 2.5s steps(30, end), blink .5s step-end infinite;
+        }
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink { from, to { border-color: transparent } 50% { border-color: #d63384 } }
+
+        button {
+            margin-top: 20px; padding: 12px 35px; border: none; border-radius: 50px;
+            background: var(--primary); color: white; font-weight: 600; cursor: pointer;
+            transition: 0.3s; box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+        }
+        button:hover { transform: scale(1.05); }
+
+        .slideshow { width: 220px; height: 220px; border-radius: 50%; overflow: hidden; border: 5px solid white; margin: 0 auto; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .slideshow img { width: 100%; height: 100%; object-fit: cover; }
+
+        .popup {
+            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: white; padding: 40px; border-radius: 30px; z-index: 1000; box-shadow: 0 0 100px rgba(0,0,0,0.3);
+        }
+        .sparkle { position: fixed; pointer-events: none; z-index: 999; animation: fly 2s forwards; }
+        @keyframes fly { 0% { transform: translate(0,0) scale(1); opacity: 1; } 100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; } }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop preload="auto">
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="page active" id="page1">
+        <h1>Hey Cutiee! 💖</h1>
+        <div class="glass-card">
+            <div class="typewriter">It's Your Special Day! 🎂</div>
+            <p style="color: #555;">May your smile be the brightest thing in the world today. You deserve every bit of magic!</p>
+            <button onclick="nextPage(2)">Open My Heart ➜</button>
+        </div>
+    </div>
+
+    <div class="page" id="page2">
+        <h1>Beautiful You 📸</h1>
+        <div class="glass-card">
+            <div class="slideshow">
+                <img id="slide" src="photo1.jpg" onerror="this.src='https://via.placeholder.com/300?text=Photo+1'">
+            </div>
+            <p style="margin-top:15px; color:#d63384; font-weight:600;">Gorgeous as always! ✨</p>
+            <button onclick="nextPage(3)">Next ➜</button>
+        </div>
+    </div>
+
+    <div class="page" id="page3">
+        <h1>Our Memories 🎥</h1>
+        <div class="glass-card">
+            <video id="vdo" width="100%" style="border-radius:15px;" controls>
+                <source src="memory.mp4" type="video/mp4">
+            </video>
+            <button onclick="nextPage(4)">One Last Thing... ➜</button>
+        </div>
+    </div>
+
+    <div class="page" id="page4">
+        <h1>For You 🎁</h1>
+        <div class="glass-card">
+            <h2 style="color:#d63384; margin-bottom:15px;">Are you ready?</h2>
+            <button onclick="showSurprise()">Tap to Reveal ❤️</button>
+        </div>
+    </div>
+
+    <div class="popup" id="popup">
+        <h1 style="color:#ff4d6d">Happy Birthday! 🎉</h1>
+        <p>Stay happy forever! 💖</p>
+        <button onclick="location.reload()" style="background:#555">Restart ↻</button>
+    </div>
+
+    <script>
+        function createBgHearts() {
+            const hearts = ['❤️', '💖', '✨', '🌸', '🎈'];
+            const heart = document.createElement('div');
+            heart.className = 'bg-heart';
+            heart.innerHTML = hearts[Math.floor(Math.random()*hearts.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            heart.style.opacity = Math.random();
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
+        }
+        setInterval(createBgHearts, 400);
+
+        function nextPage(num) {
+            // Music trigger
+            const music = document.getElementById('bgMusic');
+            music.play().catch(e => console.log("Waiting for user interaction"));
+
+            document.querySelectorAll('.page').forEach(p => {
+                p.classList.remove('active');
+                p.classList.remove('prev');
+            });
+            for(let i=1; i<num; i++) document.getElementById('page'+i).classList.add('prev');
+            document.getElementById('page'+num).classList.add('active');
+        }
+
+        const images = ['photo1.jpg', 'photo2.jpg', 'photo3.jpg'];
+        let idx = 0;
+        setInterval(() => {
+            idx = (idx + 1) % images.length;
+            const imgEl = document.getElementById('slide');
+            if(imgEl) imgEl.src = images[idx];
+        }, 2500);
+
+        function showSurprise() {
+            document.getElementById('popup').style.display = 'block';
+            for(let i=0; i<100; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.innerHTML = ['🎈','🌸','✨','❤️','🎂'][Math.floor(Math.random()*5)];
+                sparkle.style.left = '50vw'; sparkle.style.top = '50vh';
+                const x = (Math.random() - 0.5) * window.innerWidth * 1.5;
+                const y = (Math.random() - 0.5) * window.innerHeight * 1.5;
+                sparkle.style.setProperty('--x', x + 'px');
+                sparkle.style.setProperty('--y', y + 'px');
+                document.body.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 2000);
+            }
+        }
+    </script>
+</body>
+  </html>
+      
