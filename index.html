@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birthday Wish</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<audio autoplay loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="page active" id="page1">
+  <h1>Welcome Cutiee 💖</h1>
+  <div class="typewriter">Heyy its your birthday 🎂</div>
+
+  <div class="scroll-box">
+    <div class="scroll-text">
+      May your smile always stay bright ✨<br>
+      May your dreams come true 🌸<br>
+      You deserve happiness everyday 💕<br>
+      Stay cute forever 🎀
+    </div>
+  </div>
+
+  <button onclick="nextPage(2)">Next ➜</button>
+</div>
+
+<div class="page" id="page2">
+  <h1>Photo Memories 📸</h1>
+  <div class="slideshow">
+    <img id="slide" src="photo1.jpg">
+  </div>
+  <button onclick="nextPage(3)">Next ➜</button>
+</div>
+
+<div class="page" id="page3">
+  <h1>Memory Video 🎥</h1>
+  <video controls>
+    <source src="memory.mp4" type="video/mp4">
+  </video>
+  <button onclick="nextPage(4)">Next ➜</button>
+</div>
+
+<div class="page" id="page4">
+  <h1>Final Surprise 🎁</h1>
+  <button onclick="showPopup()">Open Surprise ❤️</button>
+</div>
+
+<div class="popup" id="popup">
+  <h2>Happy Birthday 🎉</h2>
+  <p>Stay happy, stay loved, keep smiling always 💖</p>
+</div>
+
+<script src="script.js"></script>
+</body>
+      </html>
