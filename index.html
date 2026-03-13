@@ -9,15 +9,19 @@
     .page {
       width: 100vw;
       height: 100vh;
-      display: none;
+      position: absolute;
+      top: 0;
+      left: 100%;
+      display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
       padding: 20px;
-      position: relative;
+      transition: left 0.8s ease-in-out;
     }
-    .active { display: flex; }
+    .active { left: 0; }
+    .prev { left: -100%; }
     h1 { font-size: 2.5rem; margin-bottom: 20px; color: white; }
     p { font-size: 1.2rem; color: white; max-width: 700px; }
     button {
@@ -29,7 +33,9 @@
       color: #e91e63;
       font-size: 1rem;
       cursor: pointer;
+      transition: transform 0.3s ease;
     }
+    button:hover { transform: scale(1.1); }
     .typewriter {
       border-right: 2px solid white;
       white-space: nowrap;
@@ -40,16 +46,21 @@
     @keyframes typing { from { width: 0 } to { width: 100% } }
     @keyframes blink { 50% { border-color: transparent; } }
     .scroll-box {
-      height: 120px;
+      height: 100px;
+      width: 320px;
       overflow: hidden;
       margin-top: 20px;
+      position: relative;
+    }
+    .scroll-text {
+      position: absolute;
+      width: 100%;
+      animation: scrollText 8s linear infinite;
       color: white;
-      font-size: 1.1rem;
-      animation: scrollText 10s linear infinite;
     }
     @keyframes scrollText {
-      0% { transform: translateY(100%); }
-      100% { transform: translateY(-100%); }
+      0% { top: 100%; }
+      100% { top: -100%; }
     }
     .heart {
       position: absolute;
@@ -85,20 +96,21 @@
       text-align: center;
       color: #e91e63;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      z-index: 10;
     }
   </style>
 </head>
 <body><audio autoplay loop>
   <source src="music.mp3" type="audio/mpeg">
-</audio><div id="hearts"></div><div class="page active" id="page1">
+</audio><div class="page active" id="page1">
   <h1>Welcome Cutiee 💖</h1>
   <p class="typewriter">Heyy its your birthday 🎂</p>
   <div class="scroll-box">
-    <p>May your smile always stay bright ✨<br>May your dreams come true 🌸<br>You deserve happiness everyday 💕<br>Stay cute forever 🎀</p>
+    <div class="scroll-text">May your smile always stay bright ✨<br>May your dreams come true 🌸<br>You deserve happiness everyday 💕<br>Stay cute forever 🎀</div>
   </div>
   <button onclick="nextPage(2)">Next ➜</button>
 </div><div class="page" id="page2">
-  <h1>Photo Slideshow 📸</h1>
+  <h1>Photo Memories 📸</h1>
   <div class="slideshow">
     <img id="slide" src="photo1.jpg" alt="memory">
   </div>
@@ -117,21 +129,24 @@
   <p>You are special and always deserve happiness 💕</p>
 </div><script>
 function nextPage(pageNumber) {
-  document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(page => {
+    if(page.classList.contains('active')) page.classList.add('prev');
+    page.classList.remove('active');
+  });
   document.getElementById('page' + pageNumber).classList.add('active');
 }
 
 function showPopup() {
   document.getElementById('popup').style.display = 'block';
-}
-
-for(let i=0;i<20;i++){
-  let heart=document.createElement('div');
-  heart.className='heart';
-  heart.innerHTML='❤';
-  heart.style.left=Math.random()*100+'vw';
-  heart.style.animationDuration=(3+Math.random()*4)+'s';
-  document.body.appendChild(heart);
+  for(let i=0;i<80;i++){
+    let heart=document.createElement('div');
+    heart.className='heart';
+    heart.innerHTML='❤';
+    heart.style.left=Math.random()*100+'vw';
+    heart.style.top=Math.random()*100+'vh';
+    heart.style.animationDuration=(2+Math.random()*3)+'s';
+    document.body.appendChild(heart);
+  }
 }
 
 const images=['photo1.jpg','photo2.jpg','photo3.jpg'];
@@ -141,4 +156,4 @@ setInterval(()=>{
   document.getElementById('slide').src=images[index];
 },2000);
 </script></body>
-  </html>
+</html>
