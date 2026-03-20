@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>30 March - A Special Day 💖</title>
+
+<meta property="og:title" content="Happy Birthday Cutie! 🎂">
+<meta property="og:description" content="A special surprise made for you 💖">
+<meta property="og:image" content="thumbnail.png">
+<meta property="og:url" content="https://obitoxburn.github.io/Birthday/">
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+--primary:#ff4d6d;
+--glass:rgba(255,255,255,0.25);
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+height:100vh;
+overflow:hidden;
+background:linear-gradient(45deg,#ff9a9e,#fecfef);
+display:flex;
+justify-content:center;
+align-items:center;
+position:relative;
+padding:10px;
+}
+
+/* soft glow */
+body::before{
+content:'';
+position:absolute;
+width:280px;
+height:280px;
+background:rgba(255,255,255,0.25);
+border-radius:50%;
+filter:blur(90px);
+animation:float 8s infinite alternate;
+}
+
+@keyframes float{
+from{transform:translate(-120px,-120px);}
+to{transform:translate(180px,180px);}
+}
+
+/* mouse trail */
+.trail{
+position:fixed;
+pointer-events:none;
+font-size:14px;
+animation:trailFade 1s forwards;
+z-index:9999;
+}
+
+@keyframes trailFade{
+to{
+transform:translateY(-40px) scale(0);
+opacity:0;
+}
+}
+
+/* pages */
+.page{
+position:absolute;
+width:100%;
+height:100%;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+transform:translateX(100%);
+opacity:0;
+transition:0.8s;
+padding:15px;
+}
+
+.page.active{
+transform:translateX(0);
+opacity:1;
+z-index:10;
+}
+
+.page.prev{
+transform:translateX(-100%);
+opacity:0;
+}
+
+.glass-card{
+background:var(--glass);
+backdrop-filter:blur(12px);
+border-radius:25px;
+padding:22px;
+width:100%;
+max-width:360px;
+box-shadow:0 15px 35px rgba(0,0,0,0.1);
+text-align:center;
+}
+
+h1{
+font-family:'Dancing Script',cursive;
+font-size:2.2rem;
+color:white;
+margin-bottom:15px;
+}
+
+button{
+margin-top:18px;
+padding:12px 28px;
+border:none;
+border-radius:50px;
+background:var(--primary);
+color:white;
+font-weight:600;
+font-size:15px;
+}
+
+/* countdown */
+#countdown{
+font-size:1rem;
+color:#d63384;
+font-weight:600;
+margin-top:10px;
+}
+
+/* slideshow */
+.slideshow{
+width:180px;
+height:180px;
+border-radius:50%;
+overflow:hidden;
+border:4px solid white;
+margin:auto;
+}
+
+.slideshow img{
+width:100%;
+height:100%;
+object-fit:cover;
+animation:zoom 3s infinite alternate;
+}
+
+@keyframes zoom{
+from{transform:scale(1);}
+to{transform:scale(1.08);}
+}
+
+/* timeline */
+.timeline{
+border-left:3px solid white;
+padding-left:15px;
+text-align:left;
+}
+
+.timeline-item{
+margin-bottom:15px;
+font-size:14px;
+color:#444;
+}
+
+/* popup */
+.popup{
+display:none;
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:white;
+padding:28px;
+border-radius:20px;
+z-index:1000;
+width:85%;
+max-width:320px;
+text-align:center;
+}
+
+/* sparkles */
+.sparkle{
+position:fixed;
+pointer-events:none;
+animation:fly 2.5s forwards;
+}
+
+@keyframes fly{
+100%{
+transform:translate(var(--x),var(--y)) scale(0);
+opacity:0;
+}
+}
+
+@media(max-width:480px){
+h1{font-size:1.9rem;}
+button{font-size:14px;padding:10px 22px;}
+}
+</style>
+</head>
+<body>
+
+<audio id="bgMusic" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- page1 -->
+<div class="page active" id="page1">
+<h1 id="title"></h1>
+<div class="glass-card">
+<p>Ready for your surprise? 💖</p>
+<div id="countdown"></div>
+<button onclick="nextPage(2)">Start ➜</button>
+</div>
+</div>
+
+<!-- page2 -->
+<div class="page" id="page2">
+<h1>Memories 📸</h1>
+<div class="glass-card">
+<div class="slideshow">
+<img id="slide" src="photo1.jpg">
+</div>
+<button onclick="goTimeline()">Next ➜</button>
+</div>
+</div>
+
+<!-- page3 -->
+<div class="page" id="page3">
+<h1>30 March Timeline 🗓️</h1>
+<div class="glass-card">
+<div class="timeline">
+<div class="timeline-item">12:00 AM - Birthday starts 🎂</div>
+<div class="timeline-item">Morning - Smile begins 🌸</div>
+<div class="timeline-item">Evening - Cake time 🎁</div>
+<div class="timeline-item">Forever - Happiness 💖</div>
+</div>
+<button onclick="nextPage(4)">Next ➜</button>
+</div>
+</div>
+
+<!-- page4 -->
+<div class="page" id="page4">
+<h1>Video 🎥</h1>
+<div class="glass-card">
+<video width="100%" controls style="border-radius:12px;">
+<source src="memory.mp4" type="video/mp4">
+</video>
+<button onclick="nextPage(5)">Final ➜</button>
+</div>
+</div>
+
+<!-- page5 -->
+<div class="page" id="page5">
+<h1>Tap ❤️</h1>
+<div class="glass-card">
+<button onclick="showSurprise()">Tap Here ❤️</button>
+</div>
+</div>
+
+<!-- popup -->
+<div class="popup" id="popup">
+<h1 style="color:#ff4d6d;">Happy Birthday 🎉</h1>
+<p>You are special 💖</p>
+<button onclick="spreadLove()">Lovee Uhh ❤️</button>
+</div>
+
+<script>
+
+/* typewriter */
+const text="Hello Cutiee 💖";
+let i=0;
+function typeWriter(){
+if(i<text.length){
+document.getElementById("title").innerHTML+=text.charAt(i);
+i++;
+setTimeout(typeWriter,100);
+}
+}
+typeWriter();
+
+/* countdown */
+function updateCountdown(){
+const target=new Date("March 30, 2026 00:00:00").getTime();
+const now=new Date().getTime();
+const diff=target-now;
+
+if(diff>0){
+const days=Math.floor(diff/(1000*60*60*24));
+const hours=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+const mins=Math.floor((diff%(1000*60*60))/(1000*60));
+
+document.getElementById("countdown").innerHTML=
+days+"d "+hours+"h "+mins+"m left ⏳";
+}else{
+document.getElementById("countdown").innerHTML="It's time 💖";
+}
+}
+setInterval(updateCountdown,1000);
+updateCountdown();
+
+/* timeline lock */
+function goTimeline(){
+const target=new Date("March 30, 2026 00:00:00").getTime();
+const now=new Date().getTime();
+
+if(now>=target){
+nextPage(3);
+}else{
+alert("Timeline unlocks exactly at 12:00 AM on 30 March 💖");
+}
+}
+
+/* mouse trail */
+document.addEventListener('mousemove',e=>{
+const symbols=['❤️','✨','💖'];
+const trail=document.createElement('div');
+trail.className='trail';
+trail.innerHTML=symbols[Math.floor(Math.random()*3)];
+trail.style.left=e.pageX+'px';
+trail.style.top=e.pageY+'px';
+document.body.appendChild(trail);
+setTimeout(()=>trail.remove(),800);
+});
+
+/* navigation */
+function nextPage(num){
+document.getElementById('bgMusic').play().catch(()=>{});
+
+document.querySelectorAll('.page').forEach(p=>{
+p.classList.remove('active');
+p.classList.remove('prev');
+});
+
+for(let i=1;i<num;i++){
+document.getElementById('page'+i).classList.add('prev');
+}
+
+document.getElementById('page'+num).classList.add('active');
+}
+
+/* slideshow */
+const images=['photo1.jpg','photo2.jpg','photo3.jpg'];
+let idx=0;
+setInterval(()=>{
+idx=(idx+1)%images.length;
+document.getElementById('slide').src=images[idx];
+},2500);
+
+/* floating hearts */
+setInterval(()=>{
+const heart=document.createElement('div');
+heart.innerHTML='💖';
+heart.style.position='fixed';
+heart.style.left=Math.random()*100+'vw';
+heart.style.top='-20px';
+heart.style.fontSize='20px';
+
+heart.animate([
+{transform:'translateY(0px)'},
+{transform:'translateY(110vh) rotate(360deg)'}
+],{
+duration:5000
+});
+
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),5000);
+},700);
+
+/* surprise */
+function showSurprise(){
+document.getElementById('popup').style.display='block';
+createBurst(100);
+}
+
+function createBurst(count){
+for(let i=0;i<count;i++){
+const sparkle=document.createElement('div');
+sparkle.className='sparkle';
+sparkle.innerHTML=['❤️','✨','🎉','💖'][Math.floor(Math.random()*4)];
+sparkle.style.left='50vw';
+sparkle.style.top='50vh';
+
+const x=(Math.random()-0.5)*window.innerWidth*2;
+const y=(Math.random()-0.5)*window.innerHeight*2;
+
+sparkle.style.setProperty('--x',x+'px');
+sparkle.style.setProperty('--y',y+'px');
+
+document.body.appendChild(sparkle);
+setTimeout(()=>sparkle.remove(),2500);
+}
+}
+
+function spreadLove(){
+createBurst(150);
+}
+
+</script>
+
+</body>
+</html>
