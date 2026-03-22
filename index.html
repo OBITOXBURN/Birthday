@@ -165,6 +165,7 @@ body::before{
   transition:transform .15s;
 }
 .lbtn:active{ transform:scale(.96); }
+.lbtn{ cursor:pointer !important; }
 
 @keyframes shake{
   0%,100%{ transform:translateX(0);   }
@@ -339,7 +340,7 @@ button:hover { transform:translateY(-2px) scale(1.03); box-shadow:0 10px 26px rg
 
     <div id="pw-err">Hamara nickname likho cutiee 🥺</div>
 
-    <button class="lbtn" id="unlockBtn">Unlock 🔓</button>
+    <button type="button" class="lbtn" id="unlockBtn">Unlock 🔓</button>
   </div>
 </div>
 
@@ -437,7 +438,8 @@ var currentPage = 1;
 var PASS = "aeincutiee";
 
 function checkPW() {
-  var val = pwInput.value.trim().toLowerCase();
+  var raw = pwInput.value || '';
+  var val = raw.trim().toLowerCase();
   if (val === PASS) {
     lockEl.style.transition    = 'opacity 0.5s ease, transform 0.5s ease';
     lockEl.style.opacity       = '0';
@@ -653,10 +655,4 @@ document.addEventListener('visibilitychange', function() {
   } else {
     /* User wapas aaya — sirf music resume karo, video nahi */
     if (musicWasPlaying && currentPage !== 1 && currentPage !== 4 && currentPage !== 5) {
-      music.play().catch(function() {});
-    }
-    musicWasPlaying = false;
-  }
-});
-
-/
+      music.p
