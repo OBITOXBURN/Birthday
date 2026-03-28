@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>30 March 💖</title>
+<meta property="og:title" content="Happy Birthday Cutie! 🎂"/>
+<meta property="og:description" content="A special surprise made just for you 💖"/>
+<meta property="og:image" content="thumbnail.jpg"/> 
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{
+  min-height:100vh;width:100%;overflow:hidden;
+  font-family:'Nunito',sans-serif;
+  background:linear-gradient(145deg,#ffd6e0,#ffb3c6 40%,#fecdd3 70%,#ffd6e0);
+  display:flex;justify-content:center;align-items:center;
+}
+.petals{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.petal{position:absolute;top:-40px;animation:fall linear infinite;}
+@keyframes fall{0%{transform:translateY(0) rotate(0deg);}100%{transform:translateY(110vh) rotate(360deg);}}
+
+#lock{
+  position:fixed;inset:0;background:linear-gradient(145deg,#ffd6e0,#ffb3c6 50%,#fecdd3);
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  z-index:9000;padding:20px;transition:all .4s ease;
+}
+#lock.hide{opacity:0;transform:scale(0.9);pointer-events:none;}
+.lcard{
+  background:rgba(255,255,255,.28);border:1.5px solid rgba(255,255,255,.6);
+  border-radius:28px;padding:30px;width:100%;max-width:310px;text-align:center;
+  box-shadow:0 10px 40px rgba(255,77,109,.2);
+}
+#pw{
+  width:100%;padding:12px;margin:15px 0 10px;border-radius:50px;
+  border:2px solid rgba(255,255,255,.5);background:rgba(255,255,255,.2);
+  color:#fff;text-align:center;outline:none;font-size:1rem;
+}
+.lbtn{
+  width:100%;padding:12px;border:none;border-radius:50px;
+  background:linear-gradient(135deg,#ff4d6d,#ff85a1);
+  color:#fff;font-weight:700;cursor:pointer;box-shadow:0 5px 15px rgba(255,77,109,.3);
+}
+
+#pages{position:relative;width:100%;height:100vh;display:none;}
+.page{
+  position:absolute;inset:0;display:none;flex-direction:column;
+  justify-content:center;align-items:center;padding:20px;text-align:center;
+}
+.page.active{display:flex;animation:fadeIn 0.5s ease-in-out;}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+.card{background:rgba(255,255,255,.28);border-radius:24px;padding:20px;width:100%;max-width:350px;border:1px solid rgba(255,255,255,.4);}
+.btn{padding:12px 25px;border:none;border-radius:50px;background:#ff4d6d;color:#fff;font-weight:700;margin-top:15px;cursor:pointer;}
+
+.ss-wrap{width:140px;height:140px;margin:0 auto;position:relative;border:4px solid white;border-radius:50%;overflow:hidden;}
+.slide{position:absolute;inset:0;opacity:0;transition:0.5s;}
+.slide.on{opacity:1;}
+.slide img{width:100%;height:100%;object-fit:cover;}
+
+#mpill{position:fixed;top:15px;right:15px;background:rgba(255,255,255,.4);padding:5px 15px;border-radius:50px;color:#fff;display:none;z-index:10000;cursor:pointer;}
+#overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:none;justify-content:center;align-items:center;z-index:10001;}
+.popup{background:#fff;padding:30px;border-radius:25px;text-align:center;width:80%;max-width:300px;}
+</style>
+</head>
+<body>
+
+<audio id="bgm" loop><source src="music.mp3" type="audio/mpeg"></audio>
+<div id="mpill" onclick="toggleMusic()">🎵 Music</div>
+
+<div class="petals" id="petals"></div>
+
+<div id="lock">
+  <div class="lcard">
+    <h2 style="color:#fff;">Surprise 🔒</h2>
+    <p style="color:#fff;font-size:0.9rem;">Password daal ke andar aa 💖</p>
+    <form id="lock-form">
+      <input id="pw" type="password" placeholder="Nickname likho..." autocomplete="off">
+      <button type="submit" class="lbtn">Unlock 🔓</button>
+    </form>
+    <p id="pw-err" style="display:none;color:#b00030;font-size:0.8rem;margin-top:5px;">Wrong password jaana! 🥺</p>
+  </div>
+</div>
+
+<div id="pages">
+  <div class="page active" id="page1">
+    <h1 id="title" style="color:#fff;margin-bottom:15px;"></h1>
+    <div class="card">
+      <p style="color:#fff;">Meri pyari si laado ke liye... 💖</p>
+      <button class="btn" onclick="startAndGo()">Let's Start ➜</button>
+    </div>
+  </div>
+
+  <div class="page" id="page2">
+    <h1 style="color:#fff;margin-bottom:10px;">Yaadein 📸</h1>
+    <div class="card">
+      <div class="ss-wrap" id="ssWrap"></div>
+      <p id="slideCaption" style="color:#fff;margin-top:10px;"></p>
+      <button class="btn" onclick="go(3)">Next ➜</button>
+    </div>
+  </div>
+
+  <div class="page" id="page3">
+    <h1 style="color:#fff;margin-bottom:10px;">Timeline 🗓️</h1>
+    <div class="card" style="text-align:left;color:#fff;font-size:0.9rem;">
+      <p>✨ 12:00 AM - Birthday Wish 🎂</p>
+      <p>✨ Subah - Teri Pyari Smile 🌸</p>
+      <p>✨ Shaam - Hamara Time 💕</p>
+      <button class="btn" onclick="go(4)" style="width:100%;">Next ➜</button>
+    </div>
+  </div>
+
+  <div class="page" id="page4">
+    <h1 style="color:#fff;margin-bottom:10px;">Special Video 🎥</h1>
+    <div class="card">
+      <video width="100%" controls style="border-radius:15px;"><source src="memory.mp4" type="video/mp4"></video>
+      <button class="btn" onclick="go(5)">Final Surprise ➜</button>
+    </div>
+  </div>
+
+  <div class="page" id="page5">
+    <div class="card">
+      <h2 style="color:#ff4d6d;">Love You ❤️</h2>
+      <p style="color:#555;margin-top:10px;">Tu hai toh sab kuch hai meri jaan!</p>
+      <button class="btn" onclick="showPopup()">Last Magic ✨</button>
+    </div>
+  </div>
+</div>
+
+<div id="overlay">
+  <div class="popup">
+    <h2>Happy Birthday! 🎂</h2>
+    <p>Hamesha khush rehna meri jaan ❤️</p>
+    <button class="btn" onclick="closePopup()">I Love You too 🌸</button>
+  </div>
+</div>
+
+<script>
+var PHOTOS = [
+  {src:'photo1.jpg', cap:'My Cutie Pie 💖'},
+  {src:'photo2.jpg', cap:'Ye smile... 🌸'},
+  {src:'photo3.jpg', cap:'Always yours! 🧸'}
+];
+var PASSWORD = 'aeincutiee';
+var TYPETEXT = 'Hello Cutiee 💖';
+
+/* Petals */
+(function(){
+  var wrap=document.getElementById('petals');
+  for(var i=0;i<15;i++){
+    var el=document.createElement('div');
+    el.className='petal';
+    el.textContent=['🌸','🌺','🌷','💕'][i%4];
+    el.style.left=(Math.random()*100)+'%';
+    el.style.animationDuration=(5+Math.random()*5)+'s';
+    wrap.appendChild(el);
+  }
+})();
+
+/* Unlock */
+document.getElementById('lock-form').addEventListener('submit', function(e){
+  e.preventDefault();
+  if(document.getElementById('pw').value.toLowerCase() === PASSWORD){
+    document.getElementById('lock').classList.add('hide');
+    document.getElementById('pages').style.display='block';
+    typeWriter(0);
+  } else {
+    document.getElementById('pw-err').style.display='block';
+  }
+});
+
+function typeWriter(i){
+  if(i<TYPETEXT.length){
+    document.getElementById('title').textContent+=TYPETEXT[i];
+    setTimeout(()=>typeWriter(i+1), 100);
+  }
+}
+
+function go(n){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page'+n).classList.add('active');
+  if(n===2) initSlideshow();
+}
+
+function startAndGo(){
+  var bgm=document.getElementById('bgm');
+  bgm.play().catch(()=>{});
+  document.getElementById('mpill').style.display='block';
+  go(2);
+}
+
+function initSlideshow(){
+  var wrap=document.getElementById('ssWrap');
+  wrap.innerHTML='';
+  PHOTOS.forEach((ph,i)=>{
+    var img=document.createElement('div');
+    img.className='slide'+(i===0?' on':'');
+    img.innerHTML=`<img src="${ph.src}">`;
+    wrap.appendChild(img);
+  });
+  document.getElementById('slideCaption').textContent=PHOTOS[0].cap;
+  var idx=0;
+  setInterval(()=>{
+    var s=document.querySelectorAll('.slide');
+    s[idx].classList.remove('on');
+    idx=(idx+1)%PHOTOS.length;
+    s[idx].classList.add('on');
+    document.getElementById('slideCaption').textContent=PHOTOS[idx].cap;
+  },3000);
+}
+
+function toggleMusic(){
+  var m=document.getElementById('bgm');
+  m.paused?m.play():m.pause();
+}
+function showPopup(){document.getElementById('overlay').style.display='flex';}
+function closePopup(){document.getElementById('overlay').style.display='none';}
+</script>
+</body>
+</html>
